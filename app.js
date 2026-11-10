@@ -264,7 +264,10 @@ cameraInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
-  const configKey = CONFIG?.GEMINI_API_KEY?.includes('여기에_') ? null : CONFIG?.GEMINI_API_KEY;
+  const rawConfigKey = window.CONFIG?.GEMINI_API_KEY;
+  const configKey = (rawConfigKey && !rawConfigKey.includes('여기에_')) ? rawConfigKey : null;
+
+  // sessionStorage 키 우선 -> 없으면 configKey 사용
   const apiKey = sessionStorage.getItem('gemini_api_key') || configKey;
 
   if (!apiKey) {
